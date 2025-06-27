@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Для моих сестер</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+            cursor: pointer;
+        }
+
+        .circle {
+            width: 200px;
+            height: 200px;
+            background: #666;
+            border-radius: 50%;
+            position: relative;
+            transition: all 2s ease-in-out;
+            cursor: pointer;
+            box-shadow: 0 0 30px rgba(102, 102, 102, 0.5);
+        }
+
+        .circle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 50px rgba(102, 102, 102, 0.8);
+        }
+
+        .circle.clicked {
+            width: 100vw;
+            height: 100vh;
+            border-radius: 0;
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57);
+            animation: colorChange 3s ease-in-out infinite;
+        }
+
+        @keyframes colorChange {
+            0% { background: linear-gradient(135deg, #ff6b6b, #4ecdc4); }
+            25% { background: linear-gradient(135deg, #4ecdc4, #45b7d1); }
+            50% { background: linear-gradient(135deg, #45b7d1, #96ceb4); }
+            75% { background: linear-gradient(135deg, #96ceb4, #feca57); }
+            100% { background: linear-gradient(135deg, #feca57, #ff6b6b); }
+        }
+
+        .message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            font-size: 2em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            z-index: 10;
+        }
+
+        .message.show {
+            opacity: 1;
+            animation: messageAppear 2s ease-in-out;
+        }
+
+        @keyframes messageAppear {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.5);
+            }
+            50% {
+                opacity: 0.7;
+                transform: translate(-50%, -50%) scale(1.1);
+            }
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        .sister-names {
+            margin-top: 20px;
+            font-size: 0.8em;
+            opacity: 0;
+            transition: opacity 1s ease-in-out 1s;
+        }
+
+        .sister-names.show {
+            opacity: 1;
+        }
+
+        .heart {
+            color: #ff4757;
+            animation: heartbeat 1.5s ease-in-out infinite;
+            display: inline-block;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .click-instruction {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #666;
+            font-size: 1.2em;
+            opacity: 0.7;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .click-instruction.hide {
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="circle" id="circle"></div>
+    
+    <div class="message" id="message">
+        <div>Дорогие мои сестры!</div>
+        <div class="sister-names" id="sisterNames">
+            <div>Анна <span class="heart">❤️</span></div>
+            <div>Мария <span class="heart">❤️</span></div>
+            <div>Елена <span class="heart">❤️</span></div>
+        </div>
+    </div>
+
+    <div class="click-instruction" id="instruction">
+        Нажми на круг
+    </div>
+
+    <script>
+        const circle = document.getElementById('circle');
+        const message = document.getElementById('message');
+        const sisterNames = document.getElementById('sisterNames');
+        const instruction = document.getElementById('instruction');
+        let isClicked = false;
+
+        circle.addEventListener('click', function() {
+            if (!isClicked) {
+                isClicked = true;
+                
+                // Анимация круга
+                circle.classList.add('clicked');
+                
+                // Скрываем инструкцию
+                instruction.classList.add('hide');
+                
+                // Показываем сообщение
+                setTimeout(() => {
+                    message.classList.add('show');
+                }, 1000);
+                
+                // Показываем имена сестер
+                setTimeout(() => {
+                    sisterNames.classList.add('show');
+                }, 2000);
+            }
+        });
+
+        // Добавляем возможность сброса анимации при повторном клике
+        circle.addEventListener('dblclick', function() {
+            if (isClicked) {
+                isClicked = false;
+                circle.classList.remove('clicked');
+                message.classList.remove('show');
+                sisterNames.classList.remove('show');
+                instruction.classList.remove('hide');
+            }
+        });
+    </script>
+</body>
+</html> 
