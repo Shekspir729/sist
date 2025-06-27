@@ -24,11 +24,10 @@
 
         .circle-wrapper {
             position: fixed;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            width: 400px;
-            height: 400px;
+            left: 0;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -36,27 +35,22 @@
         }
 
         .circle {
-            width: 400px;
-            height: 400px;
+            width: 2000px;
+            height: 2000px;
             background: #666;
             border-radius: 50%;
-            position: absolute;
+            position: fixed;
             left: 50%;
             top: 50%;
-            transform: translate(-50%, -50%) scale(1);
-            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1), height 1s cubic-bezier(0.4, 0, 0.2, 1), left 1s cubic-bezier(0.4, 0, 0.2, 1), top 1s cubic-bezier(0.4, 0, 0.2, 1), transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translate(-50%, -50%) scale(0.2);
+            transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
             box-shadow: 0 0 30px rgba(102, 102, 102, 0.5);
             z-index: 11;
         }
 
         .circle.expanded {
-            width: 200vw;
-            height: 200vh;
-            left: 50vw;
-            top: 50vh;
             transform: translate(-50%, -50%) scale(1);
-            border-radius: 50%;
         }
 
         .center-circle {
