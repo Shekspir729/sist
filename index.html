@@ -14,12 +14,25 @@
         body {
             background: #000;
             height: 100vh;
+            width: 100vw;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
             font-family: 'Arial', sans-serif;
-            cursor: pointer;
+        }
+
+        .circle-wrapper {
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
         }
 
         .circle {
@@ -27,35 +40,52 @@
             height: 200px;
             background: #666;
             border-radius: 50%;
-            position: relative;
-            transition: all 2s ease-in-out;
-            cursor: pointer;
-            box-shadow: 0 0 30px rgba(102, 102, 102, 0.5);
-        }
-
-        .circle:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 50px rgba(102, 102, 102, 0.8);
-        }
-
-        .circle.clicked {
-            width: 100vw;
-            height: 100vh;
-            border-radius: 0;
-            background: linear-gradient(135deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57);
-            animation: colorChange 3s ease-in-out infinite;
-            position: fixed;
+            position: absolute;
             left: 0;
             top: 0;
-            z-index: 20;
+            transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            box-shadow: 0 0 30px rgba(102, 102, 102, 0.5);
+            z-index: 11;
         }
 
-        @keyframes colorChange {
-            0% { background: linear-gradient(135deg, #ff6b6b, #4ecdc4); }
-            25% { background: linear-gradient(135deg, #4ecdc4, #45b7d1); }
-            50% { background: linear-gradient(135deg, #45b7d1, #96ceb4); }
-            75% { background: linear-gradient(135deg, #96ceb4, #feca57); }
-            100% { background: linear-gradient(135deg, #feca57, #ff6b6b); }
+        .circle.expanded {
+            transform: scale(10);
+            transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .center-circle {
+            display: none;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
+            background: #000;
+            border-radius: 50%;
+            z-index: 20;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 40px rgba(0,0,0,0.7);
+        }
+
+        .center-circle.show {
+            display: flex;
+            animation: appear 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes appear {
+            0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+
+        .center-text {
+            color: #fff;
+            font-size: 2em;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            width: 100%;
         }
 
         .message {
@@ -116,49 +146,34 @@
     </style>
 </head>
 <body>
-    <div class="circle" id="circle"></div>
-    
-    <div class="message" id="message">
-        <div>Дорогие мои сестры!</div>
-        <div class="sister-names" id="sisterNames">
-            <div>Анна <span class="heart">❤️</span></div>
-            <div>Мария <span class="heart">❤️</span></div>
-            <div>Елена <span class="heart">❤️</span></div>
+    <div class="circle-wrapper">
+        <div class="circle" id="circle"></div>
+        <div class="center-circle" id="centerCircle">
+            <span class="center-text" id="centerText">тест</span>
         </div>
     </div>
 
     <script>
         const circle = document.getElementById('circle');
-        const message = document.getElementById('message');
-        const sisterNames = document.getElementById('sisterNames');
+        const centerCircle = document.getElementById('centerCircle');
         let isClicked = false;
 
-        circle.addEventListener('click', function() {
+        circle.addEventListener('click', function(e) {
             if (!isClicked) {
                 isClicked = true;
-                
-                // Анимация круга
-                circle.classList.add('clicked');
-                
-                // Показываем сообщение
+                circle.classList.add('expanded');
                 setTimeout(() => {
-                    message.classList.add('show');
-                }, 1000);
-                
-                // Показываем имена сестер
-                setTimeout(() => {
-                    sisterNames.classList.add('show');
-                }, 2000);
+                    centerCircle.classList.add('show');
+                }, 900);
             }
         });
 
-        // Добавляем возможность сброса анимации при повторном клике
-        circle.addEventListener('dblclick', function() {
+        // Сброс по двойному клику на черном круге
+        centerCircle.addEventListener('dblclick', function() {
             if (isClicked) {
                 isClicked = false;
-                circle.classList.remove('clicked');
-                message.classList.remove('show');
-                sisterNames.classList.remove('show');
+                circle.classList.remove('expanded');
+                centerCircle.classList.remove('show');
             }
         });
     </script>
