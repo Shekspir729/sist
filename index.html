@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -109,21 +109,6 @@
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.2); }
         }
-
-        .click-instruction {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: #666;
-            font-size: 1.2em;
-            opacity: 0.7;
-            transition: opacity 0.5s ease-in-out;
-        }
-
-        .click-instruction.hide {
-            opacity: 0;
-        }
     </style>
 </head>
 <body>
@@ -138,19 +123,10 @@
         </div>
     </div>
 
-    <div class="click-instruction" id="instruction">
-        Нажми на круг
-    </div>
-
     <script>
-        document.body.addEventListener('click', function() {
-            alert('Клик работает!');
-        });
-
         const circle = document.getElementById('circle');
         const message = document.getElementById('message');
         const sisterNames = document.getElementById('sisterNames');
-        const instruction = document.getElementById('instruction');
         let isClicked = false;
 
         circle.addEventListener('click', function() {
@@ -159,9 +135,6 @@
                 
                 // Анимация круга
                 circle.classList.add('clicked');
-                
-                // Скрываем инструкцию
-                instruction.classList.add('hide');
                 
                 // Показываем сообщение
                 setTimeout(() => {
@@ -182,7 +155,6 @@
                 circle.classList.remove('clicked');
                 message.classList.remove('show');
                 sisterNames.classList.remove('show');
-                instruction.classList.remove('hide');
             }
         });
     </script>
